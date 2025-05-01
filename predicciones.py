@@ -6,7 +6,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 # ==========  
 test_pairs_path = 'C:/Users/urigo/Documents/Proyecto_Peter/versions/train_pairs.csv'
 labels_path = 'C:/Users/urigo/Documents/Proyecto_Peter/versions/labels.csv'
-predicciones_path = 'C:/Users/urigo/Documents/Proyecto_Peter/predicciones.csv'   # Cambia ruta si está en otro lugar
+predicciones_path = 'C:/Users/urigo/Documents/Proyecto_Peter/predictions_test_pairs.csv'   # Cambia ruta si está en otro lugar
 
 # ==========================  
 # Paso 1: Cargar archivos  
@@ -24,9 +24,9 @@ pred_df = pd.read_csv(predicciones_path)
 # ==========================  
 # Paso 2: Crear un diccionario con las etiquetas verdaderas  
 # ==========================  
-# Creamos una columna "pair_name" en el mismo formato que tu test_pairs
-labels_df['pair_name'] = labels_df['sub1'] + '_' + labels_df['sub2']
-labels_dict = dict(zip(labels_df['pair_name'], labels_df['verdict']))
+# Creamos una columna "pair_folder" en el mismo formato que tu test_pairs
+labels_df['pair_folder'] = labels_df['sub1'] + '_' + labels_df['sub2']
+labels_dict = dict(zip(labels_df['pair_folder'], labels_df['verdict']))
 
 # ==========================  
 # Paso 3: Construir listas de etiquetas verdaderas y predichas SOLO para los pares del test  
@@ -39,7 +39,7 @@ for pair in test_pairs:
     if pair in labels_dict:
         true_label = labels_dict[pair]
         # Buscar predicción para este par
-        pred_row = pred_df[pred_df['pair_name'] == pair]
+        pred_row = pred_df[pred_df['pair_folder'] == pair]
         if not pred_row.empty:
             pred_label = int(pred_row['prediction'].values[0])
             true_labels.append(true_label)
